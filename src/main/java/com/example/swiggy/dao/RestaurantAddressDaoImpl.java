@@ -45,9 +45,9 @@ public class RestaurantAddressDaoImpl implements DaoBase<RestaurantAddress> {
 	public RestaurantAddress persist(RestaurantAddress entity) {
 		EntityManager entityManager = emf.createEntityManager();
 		entityManager.getTransaction().begin();
-		if (!entityManager.contains(entity.getRestaurant())) {
-			entity.setRestaurant(entityManager.merge(entity.getRestaurant()));
-		}
+//		if (!entityManager.contains(entity.getRestaurant())) {
+//			entity.setRestaurant(entityManager.merge(entity.getRestaurant()));
+//		}
 		entityManager.persist(entity);
 		entityManager.getTransaction().commit();
 		entityManager.close();

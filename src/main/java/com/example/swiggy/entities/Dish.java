@@ -16,22 +16,50 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Dishes")
 public class Dish {
-	public Dish(Long id, List<Category> categories, Restaurant restaurant, String name, Double price) {
-		super();
-		this.id = id;
-		this.categories = categories;
-		this.restaurant = restaurant;
-		this.name = name;
-		this.price = price;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "DishId", updatable = false, nullable = false)
 	private Long id;
+
+	// (cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+//	@JoinTable(name = "DishesToCategories", joinColumns = { @JoinColumn(name = "DishId") }, inverseJoinColumns = {
+//			@JoinColumn(name = "CategoryId") })
+//	@JsonIgnore
+	@ManyToMany(mappedBy = "dishes")
+	private List<Category> categories;
+
+	@ManyToOne
+	@JoinColumn(name = "restaurantId")
+	private Restaurant restaurant;
+	
+	private String dishName;
+
+	private Double price;
+	
+	public Dish() {
+	}
+
+	public Dish(Long id, List<Category> categories, String dish_name, Double price, Restaurant restaurant) {
+		super();
+		this.id = id;
+		this.categories = categories;
+		this.dishName = dish_name;
+		this.price = price;
+		this.restaurant = restaurant;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 
 	public Long getId() {
 		return id;
@@ -49,20 +77,12 @@ public class Dish {
 		this.categories = categories;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
+	public String getDish_name() {
+		return dishName;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setDish_name(String dish_name) {
+		this.dishName = dish_name;
 	}
 
 	public Double getPrice() {
@@ -73,26 +93,4 @@ public class Dish {
 		this.price = price;
 	}
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "DishesToCategories", joinColumns = { @JoinColumn(name = "DishId") }, inverseJoinColumns = {
-			@JoinColumn(name = "CategoryId") })
-	private List<Category> categories;
-
-	/*
-	 * this tells that, this is the owner of relationship:A foreign Key
-	 * https://www.edureka.co/community/26873/difference-between-joincolumn-mappedby
-	 * -onetomany-association
-	 */
-	@ManyToOne
-	@JoinColumn(name = "RestaurantId")
-	private Restaurant restaurant;
-
-	@Column(name = "Name")
-	private String name;
-
-	@Column(name = "Price")
-	private Double price;
-
-	public Dish() {
-	}
 }

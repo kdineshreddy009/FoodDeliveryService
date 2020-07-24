@@ -10,46 +10,43 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 //@MappedSuperclass
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class CustomerOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "OrderId", updatable = false, nullable = false)
-	private Long order_id;
+	@Column(updatable = false, nullable = false) // name = "OrderId",
+	private Long orderId;
 
-	@Column(name = "Status")
 	private OrderStatus orderStatus;
 
-	@Column(name = "Cost")
 	private double price;
 
 	@OneToMany(mappedBy = "customerOrder")
 	private List<Item> items;
 
-	@OneToOne
-	@JoinColumn(name = "customerId")
+	@ManyToOne //	@JoinColumn(name = "customerId")
 	private Customer customer;
 
-	@OneToOne
-	@JoinColumn(name = "restaurantId")
+	@ManyToOne //@JoinColumn(name = "restaurantId")
 	private Restaurant restaurant;
 
 	@OneToOne
-	@JoinColumn(name = "deliveryAddressId")
+//	@JoinColumn(name = "deliveryAddressId")
 	private CustomerAddress customerAddress;
 
 	public Long getOrder_id() {
-		return order_id;
+		return orderId;
 	}
 
 	public void setOrder_id(Long order_id) {
-		this.order_id = order_id;
+		this.orderId = order_id;
 	}
 
 	public OrderStatus getOrderStatus() {
@@ -100,5 +97,4 @@ public class CustomerOrder {
 		this.customerAddress = customerAddress;
 	}
 
-	
 }

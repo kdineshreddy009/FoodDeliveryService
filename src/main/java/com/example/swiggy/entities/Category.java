@@ -13,31 +13,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Categories")
 public class Category {
-	public Category(Long categoryId, String name, List<Restaurant> restaurants, List<Dish> dishes) {
-		super();
-		this.categoryId = categoryId;
-		this.name = name;
-		this.restaurants = restaurants;
-		this.dishes = dishes;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "CategoryId", updatable = false, nullable = false)
+	@Column(updatable = false, nullable = false) // name = "CategoryId",
 	private Long categoryId;
 
-	@Column(name = "Name")
-	private String name;
-	// https://vladmihalcea.com/hibernate-multiplebagfetchexception/ Eager loading
-	// causes this
-	@ManyToMany(mappedBy = "categories")
+	private String categoryName;
+
+	@ManyToMany
 	private List<Restaurant> restaurants;
 
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany
 	private List<Dish> dishes;
+
+	public Category() {
+	}
+
+	public Category(Long categoryId, String name, List<Restaurant> restaurants, List<Dish> dishes) {
+		super();
+		this.categoryId = categoryId;
+		this.categoryName = name;
+		this.restaurants = restaurants;
+		this.dishes = dishes;
+	}
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -47,12 +51,12 @@ public class Category {
 		this.categoryId = categoryId;
 	}
 
-	public String getName() {
-		return name;
+	public String getCategory_name() {
+		return categoryName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String categoryname) {
+		this.categoryName = categoryname;
 	}
 
 	public List<Restaurant> getRestaurants() {
@@ -69,8 +73,5 @@ public class Category {
 
 	public void setDishes(List<Dish> dishes) {
 		this.dishes = dishes;
-	}
-
-	public Category() {
 	}
 }

@@ -8,28 +8,34 @@
 		<description>Hibernate EntityManager Demo</description>
 		<class>com.example.swiggy.entities.Restaurant</class>
 		<class>com.example.swiggy.entities.RestaurantAddress</class>
-		<class>com.example.swiggy.entities.Admin</class>
+		<!-- <class>com.example.swiggy.entities.Admin</class> -->
 		<class>com.example.swiggy.entities.Category</class>
-		<class>com.example.swiggy.entities.ClosedOrder</class>
-		<class>com.example.swiggy.entities.Customer</class>
+		
+		<!-- leave commented<class>com.example.swiggy.entities.ClosedOrder</class> -->
+		
+		<!-- <class>com.example.swiggy.entities.Customer</class>
 		<class>com.example.swiggy.entities.CustomerAddress</class>
 		<class>com.example.swiggy.entities.CustomerOrder</class>
-		<class>com.example.swiggy.entities.DeliveryExecutive</class>
+		<class>com.example.swiggy.entities.DeliveryExecutive</class> -->
 		<class>com.example.swiggy.entities.Dish</class>
-		<class>com.example.swiggy.entities.Order</class>
+		<class>com.example.swiggy.entities.Address</class>
+		<!-- <class>com.example.swiggy.entities.Order</class>
 		<class>com.example.swiggy.entities.OrderStatus</class>
 		<class>com.example.swiggy.entities.PendingOrder</class>
 		<class>com.example.swiggy.entities.StaffAddress</class>
 		<class>com.example.swiggy.entities.Person</class>
-		<class>com.example.swiggy.entities.Address</class>
 		<class>com.example.swiggy.entities.Item</class>
-		<class>com.example.swiggy.entities.Order</class>
+		<class>com.example.swiggy.entities.Order</class> -->
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.MySQL5Dialect" />
-
+<!-- validate: validate the schema, makes no changes to the database.
+update: update the schema.
+create: creates the schema, destroying previous data.
+create-drop: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
+none: does nothing with the schema, makes no changes to the database -->
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<property name="javax.persistence.jdbc.driver"

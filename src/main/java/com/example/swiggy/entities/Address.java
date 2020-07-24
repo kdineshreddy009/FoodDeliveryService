@@ -5,28 +5,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+//https://www.objectdb.com/api/java/jpa/MappedSuperclass
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
-/*
- * {
-	"addressLine1": "Street-1",
-	"addressLine2": "Kalyan Nagar",
-	"state":"Karnataka",
-	"city": "bengaluru",
-	"pincode":500021,
-	"latitude":"22.21",
-	"longitude":"23.41"
-}
- */
-
 @MappedSuperclass
 public class Address {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(updatable = false, nullable = false)
+	private Long addressId;
+
+	private String addressLine1;
+
+	private String addressLine2;
+
+	private String state;
+
+	private String city;
+
+	private Long pincode;
+
+	private String latitude;
+
+	private String longitude;
+	
+	public Address() {
+	}
 
 	public Address(Long address_id, String addressLine1, String addressLine2, String state, String city, Long pincode,
 			String latitude, String longitude) {
 		super();
-		this.address_id = address_id;
+		this.addressId = address_id;
 		this.addressLine1 = addressLine1;
 		this.addressLine2 = addressLine2;
 		this.state = state;
@@ -36,23 +46,12 @@ public class Address {
 		this.longitude = longitude;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(name = "AddressId", updatable = false, nullable = false)
-	private Long address_id;
-
-	@Column(name = "AddressLine1")
-	private String addressLine1;
-
-	@Column(name = "AddressLine2")
-	private String addressLine2;
-
 	public Long getAddress_id() {
-		return address_id;
+		return addressId;
 	}
 
 	public void setAddress_id(Long address_id) {
-		this.address_id = address_id;
+		this.addressId = address_id;
 	}
 
 	public String getAddressLine1() {
@@ -110,23 +109,4 @@ public class Address {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-
-	@Column(name = "State")
-	private String state;
-
-	@Column(name = "City")
-	private String city;
-
-	@Column(name = "Pincode")
-	private Long pincode;
-
-	@Column(name = "Latitude")
-	private String latitude;
-
-	@Column(name = "Longitude")
-	private String longitude;
-
-	public Address() {
-	}
-
 }

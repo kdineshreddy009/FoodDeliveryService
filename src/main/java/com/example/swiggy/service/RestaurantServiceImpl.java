@@ -1,5 +1,6 @@
 package com.example.swiggy.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Autowired
 	private DaoBase<Restaurant> restaurantdao;
-//	@Autowired
-//	private RestaurantAddressServiceImpl raService;
+	@Autowired
+	private RestaurantAddressServiceImpl restaurantAddressService;
+
+	@Override
+	public Restaurant getRestaurantWithId(Long id) {
+		return restaurantdao.get(id);
+	}
 
 	@Override
 	public List<Restaurant> getRestaurants() {
@@ -25,17 +31,23 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public Restaurant createRestaurant(Restaurant restaurant) {
-		return restaurantdao.persist(restaurant);
+	public Restaurant createRestaurant(String newRestaurantName, Long restaurantAddressId) {
+		Restaurant newRestaurant = new Restaurant();
+		newRestaurant.setRestaurantName(newRestaurantName);
+		newRestaurant.setRestaurantAddress(restaurantAddressService.getRestaurantAddress(restaurantAddressId));
+		return restaurantdao.persist(newRestaurant);
 	}
 
 	@Override
-	public void updateRestaurant(Restaurant entity) {
-		restaurantdao.update(entity);
+	public Restaurant updateRestaurant(Long restaurantId, String restaurantName, Long addressId) {
+//		restaurantdao.update(restaurant);
+		return null;
 	}
 
 	@Override
-	public void deleteRestaurant(Long id) {
+	public Restaurant deleteRestaurant(Long id) {
 		restaurantdao.delete(id);
+		return null;
 	}
+
 }

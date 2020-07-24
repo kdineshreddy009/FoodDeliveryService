@@ -4,6 +4,7 @@
 
 package com.example.swiggy.entities;
 
+import java.util.LinkedList;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,35 +21,46 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Cascade;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "Restaurants")
 public class Restaurant {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "RestaurantId")
-	private Long restaurantId;
-
-	@Column(name = "RestaurantName")
-	private String restaurantName;
-
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	@JoinTable(name = "RestaurantsToCategories", joinColumns = {
-			@JoinColumn(name = "RestaurantId") }, inverseJoinColumns = { @JoinColumn(name = "CategoryId") })
-	private Set<Category> categories;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "restaurant")
-	private Set<Dish> dishes;
 
 	public Restaurant() {
 	}
 
-	public Restaurant(Long restaurantId, Set<Category> categories, String restaurantName, Set<Dish> dishes) {
+	public Restaurant(Long restaurantId, String restaurantName, RestaurantAddress restaurantAddress) {
 		super();
+		System.out.println("Restaurant C2");
 		this.restaurantId = restaurantId;
-		this.categories = categories;
 		this.restaurantName = restaurantName;
-		this.dishes = dishes;
+		this.restaurantAddress = restaurantAddress;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long restaurantId;
+
+	private String restaurantName;
+
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn 
+	private RestaurantAddress restaurantAddress;
+
+	public RestaurantAddress getRestaurantAddress() {
+		return restaurantAddress;
+	}
+
+	public void setRestaurantAddress(RestaurantAddress restaurantAddress) {
+		this.restaurantAddress = restaurantAddress;
 	}
 
 	public Long getRestaurantId() {
@@ -59,14 +71,6 @@ public class Restaurant {
 		this.restaurantId = restaurantId;
 	}
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
 	public String getRestaurantName() {
 		return restaurantName;
 	}
@@ -74,12 +78,40 @@ public class Restaurant {
 	public void setRestaurantName(String restaurantName) {
 		this.restaurantName = restaurantName;
 	}
-
-	public Set<Dish> getDishes() {
-		return dishes;
-	}
-
-	public void setDishes(Set<Dish> dishes) {
-		this.dishes = dishes;
-	}
 }
+//@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+//@JoinTable(name = "RestaurantsToCategories", joinColumns = {
+//		@JoinColumn(name = "RestaurantId") }, inverseJoinColumns = { @JoinColumn(name = "CategoryId") })
+//@ManyToMany(mappedBy = "restaurants")
+//private Set<Category> categories;
+
+// (cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy =
+// "restaurant")
+//@OneToMany
+//private Set<Dish> dishes;
+
+//@JoinColumn(name = "restaurantAddress", insertable = false, updatable = false)
+//@OneToOne(targetEntity = RestaurantAddress.class, fetch = FetchType.LAZY)
+//@NotNull(message = "Car not set")
+//@JsonIgnore
+//private RestaurantAddress restaurantAddress;
+
+//@Column(name = "restaurantAddress")
+//private Long restaurantAddressId;
+
+//@OneToOne(cascade = CascadeType.ALL)
+//@JoinColumn(name = "restaurantAddressId")
+//private RestaurantAddress restaurantAddress;
+
+//public Long getRestaurantAddressId() {
+//	return restaurantAddressId;
+//}
+//
+//public void setRestaurantAddressId(Long restaurantAddressId) {
+//	this.restaurantAddressId = restaurantAddressId;
+//}
+
+//addressId // @JsonIdentityInfo(generator =
+	// ObjectIdGenerators.PropertyGenerator.class, property = "addressId")
+	// @JsonIdentityReference(alwaysAsId = true)
+	

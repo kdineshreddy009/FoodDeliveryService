@@ -15,26 +15,17 @@ import javax.persistence.Table;
 @IdClass(ItemPrimaryKey.class)
 @Table(name = "OrderedItems")
 public class Item {
+
 	@Id
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "OrderId")
 	private CustomerOrder customerOrder;
-	
+
 	@Id
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "dishId")
+	@OneToOne // (cascade = CascadeType.ALL) @JoinColumn(name = "dishId")
 	private Dish dish;
-	
-	@Column(name = "Quantity")
+
 	private Integer quantity;
-
-	public CustomerOrder getCustomerOrder() {
-		return customerOrder;
-	}
-
-	public void setCustomerOrder(CustomerOrder customerOrder) {
-		this.customerOrder = customerOrder;
-	}
 
 	public Dish getDish() {
 		return dish;
@@ -50,5 +41,12 @@ public class Item {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+	public CustomerOrder getCustomerOrder() {
+		return customerOrder;
+	}
+
+	public void setCustomerOrder(CustomerOrder customerOrder) {
+		this.customerOrder = customerOrder;
 	}
 }

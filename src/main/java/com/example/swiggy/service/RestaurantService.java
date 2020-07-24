@@ -8,10 +8,12 @@ public interface RestaurantService {
 
 	public List<Restaurant> getRestaurants();
 
-	public Restaurant createRestaurant(Restaurant res);
+	public Restaurant createRestaurant(String newRestaurantName,Long restaurantAddressId);
 
-	public void updateRestaurant(Restaurant restaurant);
+	public Restaurant updateRestaurant(Long restaurantId, String restaurantName, Long addressId);
 
-	public void deleteRestaurant(Long id);
+	public Restaurant deleteRestaurant(Long id);
+
+	public Restaurant getRestaurantWithId(Long id);
 
 }
